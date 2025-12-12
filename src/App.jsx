@@ -85,7 +85,7 @@ function App() {
 
     return (
         <>
-            <h1>Contact List</h1>
+            <h1 className={styles.title}>Contact List</h1>
             <div className={styles.container}>
                 <ContactList
                     contacts={contacts}
