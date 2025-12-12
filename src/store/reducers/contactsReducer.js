@@ -1,14 +1,6 @@
 import { contactsState } from '../../model/initialStates';
 import ACTION_TYPES from '../actions/actionTypes';
 
-const {
-    GET_CONTACTS,
-    CREATE_CONTACT,
-    UPDATE_CONTACT,
-    DELETE_CONTACT,
-    SET_CONTACT_FOR_EDIT,
-} = ACTION_TYPES;
-
 const initialState = {
     contacts: contactsState,
     contactForEdit: {
@@ -18,6 +10,14 @@ const initialState = {
         phone: '',
     },
 };
+
+const {
+    GET_CONTACTS,
+    CREATE_CONTACT,
+    UPDATE_CONTACT,
+    DELETE_CONTACT,
+    SET_CONTACT_FOR_EDIT,
+} = ACTION_TYPES;
 
 export default function contactsReducer(state = initialState, action) {
     switch (action.type) {
