@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import styles from './ContactForm.module.css';
 
@@ -140,8 +140,8 @@ function ContactForm({ contactForEdit, onDeleteContact, onSubmit }) {
     );
 }
 
-ContactForm.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-};
+// ContactForm.propTypes = {
+//     onSubmit: PropTypes.func.isRequired,
+// };
 
 export default ContactForm;

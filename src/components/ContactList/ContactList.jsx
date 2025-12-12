@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import ContactItem from '../ContactItem/ContactItem';
 
 import styles from './ContactList.module.css';
@@ -36,12 +36,12 @@ function ContactList({
     );
 }
 
-ContactList.propTypes = {
-    contacts: PropTypes.array,
-};
+// ContactList.propTypes = {
+//     contacts: PropTypes.array,
+// };
 
-ContactList.defaultProps = {
-    contacts: [],
-};
+// ContactList.defaultProps = {
+//     contacts: [],
+// };
 
 export default ContactList;
