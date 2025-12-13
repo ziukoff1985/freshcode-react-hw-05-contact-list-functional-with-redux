@@ -1,9 +1,21 @@
 import { useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+
+import api from '../../api/contactsService';
+import {
+    createContact,
+    updateContact,
+    deleteContact,
+} from '../../store/actions/contactsActions';
+import { EMPTY_CONTACT } from '../../constants/constants';
 
 import styles from './ContactForm.module.css';
 
-function ContactForm({ contactForEdit, onDeleteContact, onSubmit }) {
+function ContactForm() {
+    const contactForEdit = useSelector((state) => state.contactForEdit);
+
+    const dispatch = useDispatch();
+    // { contactForEdit, onDeleteContact, onSubmit }
     const [contactData, setContactData] = useState({
         ...contactForEdit,
     });
@@ -12,13 +24,40 @@ function ContactForm({ contactForEdit, onDeleteContact, onSubmit }) {
         setContactData({ ...contactForEdit });
     }, [contactForEdit]);
 
-    function createEmptyContact() {
-        return {
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-        };
+    // function createEmptyContact() {
+    //     return {
+    //         firstName: '',
+    //         lastName: '',
+    //         email: '',
+    //         phone: '',
+    //     };
+    // }
+
+    function onAddNewContact() {
+        api.post('/', contactData)
+            .then(({ data }) => {
+                dispatch(createContact(data));
+                setContactData(EMPTY_CONTACT);
+            })
+            .catch((err) => console.log(err.message));
+    }
+
+    function onEditOldContact() {
+        api.put(`/${contactData.id}`, contactData)
+            .then(({ data }) => {
+                dispatch(updateContact(data));
+                setContactData({ ...data });
+            })
+            .catch((err) => console.log(err.message));
+    }
+
+    function onSubmitForm(event) {
+        event.preventDefault();
+        if (!contactData.id) {
+            onAddNewContact({ ...contactData });
+        } else {
+            onEditOldContact({ ...contactData });
+        }
     }
 
     function onInputChange(event) {
@@ -29,17 +68,17 @@ function ContactForm({ contactForEdit, onDeleteContact, onSubmit }) {
         }));
     }
 
-    function onSubmitForm(event) {
-        event.preventDefault();
-        onSubmit({ ...contactData });
-        if (!contactData.id) {
-            setContactData(createEmptyContact);
-        }
-    }
+    // function onSubmitForm(event) {
+    //     event.preventDefault();
+    //     onSubmit({ ...contactData });
+    //     if (!contactData.id) {
+    //         setContactData(EMPTY_CONTACT);
+    //     }
+    // }
 
     function onContactDelete() {
-        onDeleteContact(contactData.id);
-        setContactData(createEmptyContact);
+        dispatch(deleteContact)(contactData.id);
+        setContactData(EMPTY_CONTACT);
     }
 
     function onClearField(event) {
@@ -139,9 +178,5 @@ function ContactForm({ contactForEdit, onDeleteContact, onSubmit }) {
         </form>
     );
 }
-
-// ContactForm.propTypes = {
-//     onSubmit: PropTypes.func.isRequired,
-// };
 
 export default ContactForm;

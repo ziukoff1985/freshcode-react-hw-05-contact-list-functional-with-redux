@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import api from '../../api/contactsService';
 import {
     deleteContact,
-    updateContact,
+    setContactForEdit,
 } from '../../store/actions/contactsActions';
 
 import styles from './ContactItem.module.css';
@@ -29,7 +29,7 @@ function ContactItem({
 
     function onContactEdit() {
         // onEditContact(contact);
-        dispatch(updateContact(contact));
+        dispatch(setContactForEdit(contact));
     }
 
     return (
