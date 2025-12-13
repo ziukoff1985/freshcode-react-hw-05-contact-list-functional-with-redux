@@ -8,18 +8,12 @@ import {
 
 import styles from './ContactItem.module.css';
 
-function ContactItem({
-    contact,
-    // contactForEdit,
-    // onDeleteContact,
-    // onEditContact,
-}) {
+function ContactItem({ contact }) {
     const dispatch = useDispatch();
 
     const contactForEdit = useSelector((state) => state.contactForEdit);
 
     function onContactDelete() {
-        // onDeleteContact(contact.id);
         api.delete(`/${contact.id}`)
             .then(() => {
                 dispatch(deleteContact(contact.id));
@@ -28,7 +22,6 @@ function ContactItem({
     }
 
     function onContactEdit() {
-        // onEditContact(contact);
         dispatch(setContactForEdit(contact));
     }
 

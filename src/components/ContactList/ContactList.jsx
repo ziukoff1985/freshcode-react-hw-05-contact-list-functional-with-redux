@@ -12,19 +12,9 @@ import ContactItem from '../ContactItem/ContactItem';
 import styles from './ContactList.module.css';
 
 function ContactList() {
-    //     {
-    //     contactForEdit,
-    //     contacts,
-    //     onAddNewContact,
-    //     onDeleteContact,
-    //     onEditContact,
-    // }
-
     const dispatch = useDispatch();
 
     const contacts = useSelector((state) => state.contacts);
-    console.log(contacts);
-    // const contactForEdit = useSelector((state) => state.contactForEdit);
 
     function onAddNewContact() {
         dispatch(setContactForEdit(EMPTY_CONTACT));
@@ -48,13 +38,7 @@ function ContactList() {
                 {contacts.length === 0
                     ? 'No contacts yet'
                     : contacts.map((contact) => (
-                          <ContactItem
-                              key={contact.id}
-                              contact={contact}
-                              //   onDeleteContact={onDeleteContact}
-                              //   onEditContact={onEditContact}
-                              //   contactForEdit={contactForEdit}
-                          />
+                          <ContactItem key={contact.id} contact={contact} />
                       ))}
             </ul>
             <button

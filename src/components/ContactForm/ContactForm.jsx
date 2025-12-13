@@ -12,10 +12,10 @@ import { EMPTY_CONTACT } from '../../constants/constants';
 import styles from './ContactForm.module.css';
 
 function ContactForm() {
+    const dispatch = useDispatch();
+
     const contactForEdit = useSelector((state) => state.contactForEdit);
 
-    const dispatch = useDispatch();
-    // { contactForEdit, onDeleteContact, onSubmit }
     const [contactData, setContactData] = useState({
         ...contactForEdit,
     });
@@ -23,15 +23,6 @@ function ContactForm() {
     useEffect(() => {
         setContactData({ ...contactForEdit });
     }, [contactForEdit]);
-
-    // function createEmptyContact() {
-    //     return {
-    //         firstName: '',
-    //         lastName: '',
-    //         email: '',
-    //         phone: '',
-    //     };
-    // }
 
     function onAddNewContact() {
         api.post('/', contactData)
@@ -60,25 +51,20 @@ function ContactForm() {
         }
     }
 
+    function onContactDelete() {
+        api.delete(`/${contactData.id}`)
+            .then(() => {
+                dispatch(deleteContact(contactData.id));
+            })
+            .catch((err) => console.log(err.message));
+    }
+
     function onInputChange(event) {
         const { name, value } = event.target;
         setContactData((prevState) => ({
             ...prevState,
             [name]: value,
         }));
-    }
-
-    // function onSubmitForm(event) {
-    //     event.preventDefault();
-    //     onSubmit({ ...contactData });
-    //     if (!contactData.id) {
-    //         setContactData(EMPTY_CONTACT);
-    //     }
-    // }
-
-    function onContactDelete() {
-        dispatch(deleteContact)(contactData.id);
-        setContactData(EMPTY_CONTACT);
     }
 
     function onClearField(event) {
