@@ -1,14 +1,10 @@
 import { contactsState } from '../../model/initialStates';
+import { EMPTY_CONTACT } from '../../constants/constants';
 import ACTION_TYPES from '../actions/actionTypes';
 
 const initialState = {
     contacts: contactsState,
-    contactForEdit: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-    },
+    contactForEdit: EMPTY_CONTACT,
 };
 
 const {

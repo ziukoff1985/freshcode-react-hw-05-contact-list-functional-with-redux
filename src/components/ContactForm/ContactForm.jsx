@@ -37,7 +37,7 @@ function ContactForm() {
         api.put(`/${contactData.id}`, contactData)
             .then(({ data }) => {
                 dispatch(updateContact(data));
-                setContactData({ ...data });
+                setContactData(data);
             })
             .catch((err) => console.log(err.message));
     }

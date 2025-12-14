@@ -26,7 +26,7 @@ function ContactList() {
                 if (!data) {
                     dispatch(getContacts([]));
                 } else {
-                    dispatch(getContacts([...data]));
+                    dispatch(getContacts(data));
                 }
             })
             .catch((err) => console.log(err.message));
