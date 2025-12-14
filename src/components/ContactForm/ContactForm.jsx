@@ -6,6 +6,7 @@ import {
     createContact,
     updateContact,
     deleteContact,
+    setContactForEdit,
 } from '../../store/actions/contactsActions';
 import { EMPTY_CONTACT } from '../../constants/constants';
 
@@ -37,6 +38,7 @@ function ContactForm() {
         api.put(`/${contactData.id}`, contactData)
             .then(({ data }) => {
                 dispatch(updateContact(data));
+                dispatch(setContactForEdit(data));
                 setContactData(data);
             })
             .catch((err) => console.log(err.message));
