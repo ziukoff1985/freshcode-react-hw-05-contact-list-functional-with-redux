@@ -21,15 +21,15 @@ function ContactList() {
     }
 
     useEffect(() => {
-        api.get('/')
-            .then(({ data }) => {
-                if (!data) {
-                    dispatch(getContacts([]));
-                } else {
-                    dispatch(getContacts(data));
-                }
-            })
-            .catch((err) => console.log(err.message));
+        async function fetchContacts() {
+            try {
+                const { data } = await api.get('/');
+                dispatch(getContacts(data ?? []));
+            } catch (err) {
+                console.log(err.message);
+            }
+        }
+        fetchContacts();
     }, [dispatch]);
 
     return (

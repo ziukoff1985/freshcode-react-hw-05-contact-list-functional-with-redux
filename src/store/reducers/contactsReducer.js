@@ -15,40 +15,43 @@ const {
     SET_CONTACT_FOR_EDIT,
 } = ACTION_TYPES;
 
-export default function contactsReducer(state = initialState, action) {
-    switch (action.type) {
+export default function contactsReducer(
+    state = initialState,
+    { type, payload }
+) {
+    switch (type) {
         case GET_CONTACTS:
             return {
                 ...state,
-                contacts: action.payload,
+                contacts: payload,
             };
         case CREATE_CONTACT:
             return {
                 ...state,
-                contacts: [...state.contacts, action.payload],
+                contacts: [...state.contacts, payload],
             };
         case UPDATE_CONTACT:
             return {
                 ...state,
                 contacts: state.contacts.map((contact) =>
-                    contact.id === action.payload.id ? action.payload : contact
+                    contact.id === payload.id ? payload : contact
                 ),
             };
         case DELETE_CONTACT:
             return {
                 ...state,
                 contacts: state.contacts.filter(
-                    (contact) => contact.id !== action.payload
+                    (contact) => contact.id !== payload
                 ),
                 contactForEdit:
-                    state.contactForEdit.id === action.payload
+                    state.contactForEdit.id === payload
                         ? initialState.contactForEdit
                         : state.contactForEdit,
             };
         case SET_CONTACT_FOR_EDIT:
             return {
                 ...state,
-                contactForEdit: action.payload,
+                contactForEdit: payload,
             };
         default:
             return state;

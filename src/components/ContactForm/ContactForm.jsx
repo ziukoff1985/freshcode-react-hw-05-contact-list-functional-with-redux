@@ -17,48 +17,49 @@ function ContactForm() {
 
     const contactForEdit = useSelector((state) => state.contactForEdit);
 
-    const [contactData, setContactData] = useState({
-        ...contactForEdit,
-    });
+    const [contactData, setContactData] = useState(contactForEdit);
 
     useEffect(() => {
-        setContactData({ ...contactForEdit });
+        setContactData(contactForEdit);
     }, [contactForEdit]);
 
-    function onAddNewContact() {
-        api.post('/', contactData)
-            .then(({ data }) => {
-                dispatch(createContact(data));
-                setContactData(EMPTY_CONTACT);
-            })
-            .catch((err) => console.log(err.message));
+    async function onAddNewContact() {
+        try {
+            const { data } = await api.post('/', contactData);
+            dispatch(createContact(data));
+            setContactData(EMPTY_CONTACT);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
-    function onEditOldContact() {
-        api.put(`/${contactData.id}`, contactData)
-            .then(({ data }) => {
-                dispatch(updateContact(data));
-                dispatch(setContactForEdit(data));
-                setContactData(data);
-            })
-            .catch((err) => console.log(err.message));
+    async function onEditOldContact() {
+        try {
+            const { data } = await api.put(`/${contactData.id}`, contactData);
+            dispatch(updateContact(data));
+            dispatch(setContactForEdit(data));
+            setContactData(data);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     function onSubmitForm(event) {
         event.preventDefault();
         if (!contactData.id) {
-            onAddNewContact({ ...contactData });
+            onAddNewContact();
         } else {
-            onEditOldContact({ ...contactData });
+            onEditOldContact();
         }
     }
 
-    function onContactDelete() {
-        api.delete(`/${contactData.id}`)
-            .then(() => {
-                dispatch(deleteContact(contactData.id));
-            })
-            .catch((err) => console.log(err.message));
+    async function onContactDelete() {
+        try {
+            await api.delete(`/${contactData.id}`);
+            dispatch(deleteContact(contactData.id));
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     function onInputChange(event) {

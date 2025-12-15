@@ -13,12 +13,13 @@ function ContactItem({ contact }) {
 
     const contactForEdit = useSelector((state) => state.contactForEdit);
 
-    function onContactDelete() {
-        api.delete(`/${contact.id}`)
-            .then(() => {
-                dispatch(deleteContact(contact.id));
-            })
-            .catch((err) => console.log(err.message));
+    async function onContactDelete() {
+        try {
+            await api.delete(`/${contact.id}`);
+            dispatch(deleteContact(contact.id));
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
     function onContactEdit() {
