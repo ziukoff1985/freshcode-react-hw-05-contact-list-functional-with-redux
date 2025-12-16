@@ -25,8 +25,8 @@ function ContactList() {
             try {
                 const { data } = await api.get('/');
                 dispatch(getContacts(data ?? []));
-            } catch (err) {
-                console.log(err.message);
+            } catch (error) {
+                console.log(error.message);
             }
         }
         fetchContacts();
