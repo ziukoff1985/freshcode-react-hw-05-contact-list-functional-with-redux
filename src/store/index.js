@@ -1,6 +1,11 @@
 import { createStore } from 'redux';
-import { composeWithDevTools } from '@redux-devtools/extension';
+import { applyMiddleware } from 'redux'; // метод для додавання middleware
+
+import { composeWithDevTools } from '@redux-devtools/extension'; // для роботи Redux DevTools
+import logger from 'redux-logger'; // для middleware - logger
 
 import contactsReducer from './reducers/contactsReducer';
 
-export default createStore(contactsReducer, composeWithDevTools());
+const middleware = applyMiddleware(logger); // додавання middleware logger
+
+export default createStore(contactsReducer, composeWithDevTools(middleware));
