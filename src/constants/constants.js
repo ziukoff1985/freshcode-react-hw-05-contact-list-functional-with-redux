@@ -6,3 +6,5 @@ export const EMPTY_CONTACT = {
     email: '',
     phone: '',
 };
+
+export const CONTACTS_SLICE_NAME = 'contacts';
