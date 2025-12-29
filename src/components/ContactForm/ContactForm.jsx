@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import api from '../../api/contactsService';
 import {
     createContact,
     updateContact,
     deleteContact,
-    setContactForEdit,
-} from '../../store/actions/contactsActions';
-import { EMPTY_CONTACT } from '../../constants/constants';
+} from '../../store/slices/contactsSlice';
 
 import styles from './ContactForm.module.css';
 
 function ContactForm() {
     const dispatch = useDispatch();
 
-    const contactForEdit = useSelector((state) => state.contactForEdit);
+    const contactForEdit = useSelector(
+        (state) => state.contactsList.contactForEdit
+    );
 
     const [contactData, setContactData] = useState(contactForEdit);
 
@@ -23,26 +22,13 @@ function ContactForm() {
         setContactData(contactForEdit);
     }, [contactForEdit]);
 
-    async function onAddNewContact() {
-        try {
-            const { data } = await api.post('/', contactData);
-            dispatch(createContact(data));
-            setContactData(EMPTY_CONTACT);
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
+    const onAddNewContact = () => {
+        dispatch(createContact(contactData));
+    };
 
-    async function onEditOldContact() {
-        try {
-            const { data } = await api.put(`/${contactData.id}`, contactData);
-            dispatch(updateContact(data));
-            dispatch(setContactForEdit(data));
-            setContactData(data);
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
+    const onEditOldContact = () => {
+        dispatch(updateContact(contactData));
+    };
 
     function onSubmitForm(event) {
         event.preventDefault();
@@ -53,14 +39,9 @@ function ContactForm() {
         }
     }
 
-    async function onContactDelete() {
-        try {
-            await api.delete(`/${contactData.id}`);
-            dispatch(deleteContact(contactData.id));
-        } catch (error) {
-            console.log(error.message);
-        }
-    }
+    const onContactDelete = () => {
+        dispatch(deleteContact(contactData.id));
+    };
 
     function onInputChange(event) {
         const { name, value } = event.target;

@@ -1,25 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import api from '../../api/contactsService';
 import {
     deleteContact,
     setContactForEdit,
-} from '../../store/actions/contactsActions';
+} from '../../store/slices/contactsSlice';
 
 import styles from './ContactItem.module.css';
 
 function ContactItem({ contact }) {
     const dispatch = useDispatch();
 
-    const contactForEdit = useSelector((state) => state.contactForEdit);
+    const contactForEdit = useSelector(
+        (state) => state.contactsList.contactForEdit
+    );
 
-    async function onContactDelete() {
-        try {
-            await api.delete(`/${contact.id}`);
-            dispatch(deleteContact(contact.id));
-        } catch (error) {
-            console.log(error.message);
-        }
+    function onContactDelete() {
+        dispatch(deleteContact(contact.id));
     }
 
     function onContactEdit() {
